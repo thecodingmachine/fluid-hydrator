@@ -1,0 +1,26 @@
+{
+    "name": "thecodingmachine/fluid-hydrator",
+    "description": "A fluid builder for MetaHydrator class",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dorian Savina",
+            "email": "d.savina@thecodingmachine.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TheCodingMachine\\FluidHydrator\\": "src/"
+        }
+    },
+    "require": {
+        "thecodingmachine/metahydrator": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.0",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
