@@ -86,6 +86,19 @@ class FluidField
         return new FluidObject($this->key, $className, $this->hydrator, $errorMessage, $this->factory);
     }
     /**
+     * @param string $table
+     * @param string $errorMessage
+     * @return FluidDBObject
+     * @throws \Exception
+     */
+    public function dbobject(string $table, string $errorMessage = 'Invalid value'): FluidDBObject
+    {
+        if ($this->factory == null || $this->factory->getDbProvider() == null) {
+            throw new \Exception('Error: a DBProvider is required to use dbobject (are you missing a FluidHydratorFactory?)');
+        }
+        return new FluidDBObject($this->key, $table, $this->hydrator, $errorMessage, $this->factory);
+    }
+    /**
      * @param string $className
      * @param string $errorMessage
      * @return FluidSubObject
