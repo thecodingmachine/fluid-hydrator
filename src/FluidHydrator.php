@@ -12,21 +12,19 @@ use TheCodingMachine\FluidHydrator\Fluid\FluidFieldOptions;
 
 class FluidHydrator implements Hydrator
 {
-    /**
-     * @var MetaHydrator
-     */
+    /** @var MetaHydrator */
     protected $metaHydrator;
-    /**
-     * @var HydratingHandlerInterface[]
-     */
-    private $handlers = [];
+    /** @var HydratingHandlerInterface[] */
+    protected $handlers = [];
+    /** @var FluidHydratorFactory */
+    protected $factory;
 
-    private $parent;
-    private $wrappingHandler;
+    protected $parent;
+    protected $wrappingHandler;
 
-    public function __construct()
+    public function __construct(FluidHydratorFactory $factory = null)
     {
-        echo '';
+        $this->factory = $factory;
     }
 
     static public function new(): FluidHydrator
@@ -48,7 +46,7 @@ class FluidHydrator implements Hydrator
      */
     public function field(string $key): FluidField
     {
-        return new FluidField($this, $key);
+        return new FluidField($this, $key, $this->factory);
     }
 
     /**
@@ -101,6 +99,6 @@ class FluidHydrator implements Hydrator
         if ($this->parent === null) {
             throw new \Exception("Error: cannot call method 'end' here (no parent hydrator)");
         }
-        return new FluidFieldOptions($this->parent, $this->wrappingHandler);
+        return new FluidFieldOptions($this->parent, $this->wrappingHandler, $this->factory);
     }
 }
