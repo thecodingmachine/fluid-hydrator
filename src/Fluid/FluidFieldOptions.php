@@ -7,9 +7,13 @@ use MetaHydrator\Handler\SimpleHydratingHandler;
 use MetaHydrator\Handler\SubHydratingHandler;
 use MetaHydrator\Parser\ArrayParser;
 use MetaHydrator\Validator\EnumValidator;
+use MetaHydrator\Validator\LessThanValidator;
 use MetaHydrator\Validator\MaxLengthValidator;
 use MetaHydrator\Validator\NotEmptyValidator;
 use MetaHydrator\Validator\RegexValidator;
+use MetaHydrator\Validator\GreaterThanValidator;
+use MetaHydrator\Validator\StrictlyGreaterThanValidator;
+use MetaHydrator\Validator\StrictlyLessThanValidator;
 use MetaHydrator\Validator\ValidatorInterface;
 use Mouf\Hydrator\Hydrator;
 use TheCodingMachine\FluidHydrator\FluidHydrator;
@@ -85,6 +89,36 @@ class FluidFieldOptions implements Hydrator
     public function enum(array $values, string $errorMessage = 'Invalid value'): FluidFieldOptions
     {
         return $this->validator(new EnumValidator($values, $errorMessage));
+    }
+
+    /**
+     * @param mixed $min
+     * @param bool $strict
+     * @param string $errorMessage
+     * @return FluidFieldOptions
+     */
+    public function min($min, bool $strict = false, string $errorMessage = 'Invalid value'): FluidFieldOptions
+    {
+        if ($strict) {
+            return $this->validator(new StrictlyGreaterThanValidator($min, $errorMessage));
+        } else {
+            return $this->validator(new GreaterThanValidator($min, $errorMessage));
+        }
+    }
+
+    /**
+     * @param mixed $max
+     * @param bool $strict
+     * @param string $errorMessage
+     * @return FluidFieldOptions
+     */
+    public function max($max, bool $strict = false, string $errorMessage = 'Invalid value'): FluidFieldOptions
+    {
+        if ($strict) {
+            return $this->validator(new StrictlyLessThanValidator($max, $errorMessage));
+        } else {
+            return $this->validator(new LessThanValidator($max, $errorMessage));
+        }
     }
 
     /**
