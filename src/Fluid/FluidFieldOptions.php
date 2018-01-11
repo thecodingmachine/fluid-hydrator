@@ -40,7 +40,7 @@ class FluidFieldOptions implements Hydrator
     }
 
     /**
-     * @param mixed $value
+     * @param mixed $defaultValue
      * @return FluidFieldOptions
      */
     public function default($defaultValue): FluidFieldOptions
