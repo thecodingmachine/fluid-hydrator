@@ -68,12 +68,13 @@ class FluidField
     }
     /**
      * @param string $format
+     * @param bool $immutable
      * @param string $errorMessage
      * @return FluidFieldOptions
      */
-    public function date(string $format = 'Y-m-d', string $errorMessage = 'Invalid value'): FluidFieldOptions
+    public function date(string $format = 'Y-m-d', bool $immutable = true, string $errorMessage = 'Invalid value'): FluidFieldOptions
     {
-        return $this->parser(new DateTimeParser($format, true, $errorMessage));
+        return $this->parser(new DateTimeParser($format, true, $errorMessage, $immutable));
     }
     /**
      * @param string $className
