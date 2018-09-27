@@ -21,7 +21,7 @@ As we are these can be chained as following:
 ```php
 $hydrator
     ->field('foo')->string()->then()
-    ->field('bar')->int() // Note that call o method then() is optional!
+    ->field('bar')->int() // Note that call to method then() is optional!
     ->field('baz')->float()
 ;
 ```
