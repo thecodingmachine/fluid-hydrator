@@ -91,7 +91,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
         $user = clone self::$user;
         $data = [
             'lastname' => 'Savina',
-            'array' => null,
+            'array' => '',
             'things' => [
                 [
                     'name' => 'foo',
@@ -125,8 +125,8 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'Dorian',
             'lastname' => 'Savina',
             'array' => [
-                0 => 'random',
-                1 => 'lambda'
+                'random',
+                'lambda'
             ],
             'things' => [
                 [
@@ -148,7 +148,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals('Dorian', $user->getFirstname());
         $this->assertEquals('Savina', $user->getLastname());
-        $this->assertEquals([0 => 'random', 1 => 'lambda'], $user->getArray());
+        $this->assertEquals(['random', 'lambda'], $user->getArray());
         $this->assertEquals('s.holmes@bakerstreet.en', $user->getEmail());
         $this->assertEquals('EH1', $user->getAddress()->getCity()->getZipCode());
     }
