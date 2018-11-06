@@ -3,8 +3,6 @@
 namespace TheCodingMachine\FluidHydrator\Fluid;
 
 use MetaHydrator\Handler\SimpleHydratingHandler;
-use MetaHydrator\Handler\SubHydratingHandler;
-use MetaHydrator\Parser\ArrayParser;
 use MetaHydrator\Parser\BoolParser;
 use MetaHydrator\Parser\DateTimeParser;
 use MetaHydrator\Parser\FloatParser;
@@ -13,7 +11,6 @@ use MetaHydrator\Parser\ParserInterface;
 use MetaHydrator\Parser\SimpleArrayParser;
 use MetaHydrator\Parser\StringParser;
 use Mouf\Hydrator\Hydrator;
-use PhpParser\Node\Expr\Array_;
 use TheCodingMachine\FluidHydrator\FluidHydrator;
 
 class FluidField
