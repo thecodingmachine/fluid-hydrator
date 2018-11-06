@@ -23,6 +23,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
             ->field('email')->string()->required()->email()
             ->field('phone')->string()->required()->phone()
             ->field('birthdate')->date('d/m/Y')->required()
+            ->field('array')->simpleArray()
             ->field('things')->object(Thing::class)
             ->begin()
                 ->field('name')->string()->required()
@@ -38,7 +39,6 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
             ->end()->required()
             ->field('registered')->bool()->required()
             ->field('stuff')->object(Thing::class)->hydrator();
-        ;
     }
 
     public function testCreateFail()
@@ -55,6 +55,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
             'phone' => '+44(0)6 45 21 78 22',
             'birthdate' => '01/04/1854',
             'registered' => false,
+            'array' => array(),
             'address' => [
                 'number' => '221 B',
                 'street' => 'Baker Street',
@@ -90,6 +91,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
         $user = clone self::$user;
         $data = [
             'lastname' => 'Savina',
+            'array' => null,
             'things' => [
                 [
                     'name' => 'foo',
@@ -103,9 +105,9 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
             $this->hydrator->hydrateObject($data, $user);
         } catch (HydratingException $exception) {
             $errors = $exception->getErrorsMap();
+            $this->assertArrayHasKey('array', $errors);
             $this->assertArrayHasKey('address', $errors);
             $this->assertEquals('This field is required', $errors['address']);
-
             $this->assertArrayHasKey('things', $errors);
             $this->assertArrayHasKey(0, $errors['things']);
             $this->assertArrayHasKey('color', $errors['things'][0]);
@@ -122,6 +124,10 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
         $data = [
             'firstname' => 'Dorian',
             'lastname' => 'Savina',
+            'array' => [
+                0 => 'random',
+                1 => 'lambda'
+            ],
             'things' => [
                 [
                     'name' => 'foo',
@@ -142,6 +148,7 @@ class FluidHydratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals('Dorian', $user->getFirstname());
         $this->assertEquals('Savina', $user->getLastname());
+        $this->assertEquals([0 => 'random', 1 => 'lambda'], $user->getArray());
         $this->assertEquals('s.holmes@bakerstreet.en', $user->getEmail());
         $this->assertEquals('EH1', $user->getAddress()->getCity()->getZipCode());
     }
@@ -158,6 +165,11 @@ class User
     public $lastname;
     public function getLastname() { return $this->lastname; }
     public function setLastname($lastname) { $this->lastname = $lastname; }
+
+    /** @var array[] */
+    public $array;
+    public function getArray() { return $this->array; }
+    public function setArray($array) { $this->array = $array; }
 
     /** @var Address */
     public $address;
