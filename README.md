@@ -17,6 +17,11 @@ Use method `field` to declare a primitive field. Then, declare its type using `i
 ```php
 $hydrator->field('foo')->int();
 ```
+Use method `field` to declare an array field. This allow you to use array as a field. 
+```php
+$hydrator->field('foo')->simpleArray();
+```
+
 As we are these can be chained as following:
 ```php
 $hydrator
@@ -41,6 +46,8 @@ $hydrator
     ->field('foo')->string()->required()->maxLength(55)->array()->required()->array()
 ;
 ```
+
+
 
 ### Object types
 You may also use a non-primitive type (ie a class) for a `field()`. Method `object()` then needs you to specify
