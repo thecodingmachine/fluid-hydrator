@@ -17,7 +17,7 @@ Use method `field` to declare a primitive field. Then, declare its type using `i
 ```php
 $hydrator->field('foo')->int();
 ```
-Use method `field` to declare an array field. This allow you to use array as a field. 
+To declare an unstructured array field (typically some decoded JSON), use the `simpleArray` function.
 ```php
 $hydrator->field('foo')->simpleArray();
 ```
