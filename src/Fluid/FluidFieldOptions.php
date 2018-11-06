@@ -3,7 +3,9 @@
 namespace TheCodingMachine\FluidHydrator\Fluid;
 
 use MetaHydrator\Handler\HydratingHandlerInterface;
+use MetaHydrator\Handler\SimpleHydratingHandler;
 use MetaHydrator\Handler\SubHydratingHandler;
+use MetaHydrator\Parser\ArrayParser;
 use MetaHydrator\Validator\EnumValidator;
 use MetaHydrator\Validator\LessThanValidator;
 use MetaHydrator\Validator\MaxLengthValidator;
