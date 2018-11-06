@@ -18,8 +18,8 @@
         "thecodingmachine/metahydrator": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.0",
-        "satooshi/php-coveralls": "^1.0"
+        "phpunit/phpunit": "^5.7.27",
+        "satooshi/php-coveralls": "^1.0.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

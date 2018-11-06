@@ -8,6 +8,7 @@ use MetaHydrator\Parser\DateTimeParser;
 use MetaHydrator\Parser\FloatParser;
 use MetaHydrator\Parser\IntParser;
 use MetaHydrator\Parser\ParserInterface;
+use MetaHydrator\Parser\SimpleArrayParser;
 use MetaHydrator\Parser\StringParser;
 use Mouf\Hydrator\Hydrator;
 use TheCodingMachine\FluidHydrator\FluidHydrator;
@@ -75,6 +76,14 @@ class FluidField
     public function date(string $format = 'Y-m-d', bool $immutable = true, string $errorMessage = 'Invalid value'): FluidFieldOptions
     {
         return $this->parser(new DateTimeParser($format, true, $errorMessage, $immutable));
+    }
+    /**
+     * @param string $errorMessage
+     * @return FluidFieldOptions
+     */
+    public function simpleArray(string $errorMessage = 'Invalid value'): FluidFieldOptions
+    {
+        return $this->parser(new SimpleArrayParser($errorMessage));
     }
     /**
      * @param string $className
