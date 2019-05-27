@@ -2,20 +2,21 @@
 
 namespace TheCodingMachine\FluidHydrator\Fluid;
 
-
 use MetaHydrator\Handler\SimpleHydratingHandler;
+use MetaHydrator\Parser\DBParser;
+use MetaHydrator\Parser\DBRetriever;
 use MetaHydrator\Parser\ObjectParser;
 use Mouf\Hydrator\Hydrator;
 use Mouf\Hydrator\TdbmHydrator;
 use TheCodingMachine\FluidHydrator\FluidHydrator;
 use TheCodingMachine\FluidHydrator\FluidHydratorFactory;
 
-class FluidObject
+class FluidDBObject
 {
     /** @var string */
     private $key;
     /** @var string */
-    private $className;
+    private $table;
     /** @var FluidHydrator */
     private $parentHydrator;
     /** @var string */
@@ -23,19 +24,27 @@ class FluidObject
     /** @var FluidHydratorFactory */
     protected $factory;
 
-    public function __construct(string $key, string $className, FluidHydrator $parentHydrator, string $errorMessage, FluidHydratorFactory $factory = null)
+    public function __construct(string $key, string $table, FluidHydrator $parentHydrator, string $errorMessage, FluidHydratorFactory $factory = null)
     {
         $this->key = $key;
-        $this->className = $className;
+        $this->table = $table;
         $this->parentHydrator = $parentHydrator;
         $this->errorMessage = $errorMessage;
         $this->factory = $factory;
     }
 
+    public function readonly(): FluidFieldOptions
+    {
+        $parser = new DBRetriever($this->factory->getDbProvider(), $this->table, $this->errorMessage);
+        $handler = new SimpleHydratingHandler($this->key, $parser);
+        $this->parentHydrator->handler($handler, $this->key);
+        return new FluidFieldOptions($this->parentHydrator, $handler, $this->factory);
+    }
+
     public function begin(): FluidHydrator
     {
         $hydrator = new FluidHydrator();
-        $parser = new ObjectParser($this->className, $hydrator, $this->errorMessage);
+        $parser = new DBParser($this->factory->getDbProvider(), $this->table, $hydrator, $this->errorMessage);
         $handler = new SimpleHydratingHandler($this->key, $parser);
         $this->parentHydrator->handler($handler, $this->key);
         return $this->parentHydrator->__sub($hydrator, $handler);
@@ -43,7 +52,7 @@ class FluidObject
 
     public function hydrator(Hydrator $hydrator = null): FluidFieldOptions
     {
-        $parser = new ObjectParser($this->className, $hydrator ?? new TdbmHydrator(), $this->errorMessage);
+        $parser = new DBParser($this->factory->getDbProvider(), $this->table, $hydrator ?? new TdbmHydrator(), $this->errorMessage);
         $handler = new SimpleHydratingHandler($this->key, $parser);
         $this->parentHydrator->handler($handler, $this->key);
         return new FluidFieldOptions($this->parentHydrator, $handler, $this->factory);
