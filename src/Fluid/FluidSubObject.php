@@ -29,14 +29,14 @@ class FluidSubObject
     public function begin(): FluidHydrator
     {
         $hydrator = new FluidHydrator();
-        $handler = new SubHydratingHandler($this->key, $this->className, $hydrator, [], $this->errorMessage);
+        $handler = new SubHydratingHandler($this->key, $this->className, $hydrator, [], null, $this->errorMessage);
         $this->parentHydrator->handler($handler, $this->key);
         return $this->parentHydrator->__sub($hydrator, $handler);
     }
 
     public function hydrator(Hydrator $hydrator = null): FluidFieldOptions
     {
-        $handler = new SubHydratingHandler($this->key, $this->className, $hydrator ?? new TdbmHydrator(), [], $this->errorMessage);
+        $handler = new SubHydratingHandler($this->key, $this->className, $hydrator ?? new TdbmHydrator(), [], null, $this->errorMessage);
         $this->parentHydrator->handler($handler, $this->key);
         return new FluidFieldOptions($this->parentHydrator, $handler);
     }
